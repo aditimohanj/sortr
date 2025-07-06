@@ -24,7 +24,17 @@ export default function Auth() {
 
   const handleLogin = () => {
     if (authData?.url) {
-      window.location.href = authData.url;
+      // Open in a new window to avoid iframe restrictions
+      const popup = window.open(authData.url, 'spotify-auth', 'width=600,height=700,scrollbars=yes,resizable=yes');
+      
+      // Check for successful authentication
+      const checkClosed = setInterval(() => {
+        if (popup?.closed) {
+          clearInterval(checkClosed);
+          // Refresh the page to check if authentication was successful
+          window.location.reload();
+        }
+      }, 1000);
     }
   };
 
