@@ -43,7 +43,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Create default settings
         await storage.createSettings({
           userId: user.id,
-          useAudioFeatures: true,
+          useAudioFeatures: false,
           useArtistGenres: true,
           minSongsPerPlaylist: 10,
           makePlaylistsPublic: false,
@@ -182,6 +182,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Reset processing job
+  app.post("/api/processing/reset/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      await storage.deleteProcessingJob(userId);
+      res.json({ message: "Processing job reset" });
+    } catch (error) {
+      console.error("Error resetting processing job:", error);
+      res.status(500).json({ message: "Failed to reset processing job" });
+    }
+  });
+
   app.get("/api/processing/status/:userId", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
@@ -254,12 +266,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Get audio features if enabled
       if (settings.useAudioFeatures) {
-        const trackIds = tracks.map(t => t.id);
-        const audioFeatures = await spotifyService.getAudioFeatures(user.accessToken, trackIds);
-        
-        // Attach audio features to tracks
-        for (let i = 0; i < tracks.length; i++) {
-          tracks[i].audioFeatures = audioFeatures[i];
+        try {
+          const trackIds = tracks.map(t => t.id);
+          const audioFeatures = await spotifyService.getAudioFeatures(user.accessToken, trackIds);
+          
+          // Attach audio features to tracks
+          for (let i = 0; i < tracks.length; i++) {
+            tracks[i].audioFeatures = audioFeatures[i];
+          }
+        } catch (error) {
+          console.warn('Failed to fetch audio features, falling back to artist genres only:', error);
+          // Continue without audio features - we'll use artist genres only
         }
       }
 
