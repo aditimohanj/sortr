@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+
+  /* Spotify colors */
+  --spotify-green: hsl(141, 76%, 48%);
+  --spotify-light-green: hsl(141, 76%, 56%);
+  --spotify-black: hsl(0, 0%, 7%);
+  --spotify-dark: hsl(0, 0%, 9%);
+  --spotify-gray: hsl(0, 0%, 16%);
+  --spotify-light-gray: hsl(0, 0%, 70%);
+  --spotify-error: hsl(348, 83%, 47%);
+  --spotify-warning: hsl(39, 100%, 50%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--spotify-black);
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-spotify-green {
+    background-color: var(--spotify-green);
+  }
+  
+  .bg-spotify-light-green {
+    background-color: var(--spotify-light-green);
+  }
+  
+  .bg-spotify-black {
+    background-color: var(--spotify-black);
+  }
+  
+  .bg-spotify-dark {
+    background-color: var(--spotify-dark);
+  }
+  
+  .bg-spotify-gray {
+    background-color: var(--spotify-gray);
+  }
+  
+  .bg-spotify-light-gray {
+    background-color: var(--spotify-light-gray);
+  }
+  
+  .bg-spotify-error {
+    background-color: var(--spotify-error);
+  }
+  
+  .bg-spotify-warning {
+    background-color: var(--spotify-warning);
+  }
+  
+  .text-spotify-green {
+    color: var(--spotify-green);
+  }
+  
+  .text-spotify-light-green {
+    color: var(--spotify-light-green);
+  }
+  
+  .text-spotify-black {
+    color: var(--spotify-black);
+  }
+  
+  .text-spotify-dark {
+    color: var(--spotify-dark);
+  }
+  
+  .text-spotify-gray {
+    color: var(--spotify-gray);
+  }
+  
+  .text-spotify-light-gray {
+    color: var(--spotify-light-gray);
+  }
+  
+  .text-spotify-error {
+    color: var(--spotify-error);
+  }
+  
+  .text-spotify-warning {
+    color: var(--spotify-warning);
+  }
+  
+  .border-spotify-green {
+    border-color: var(--spotify-green);
+  }
+  
+  .border-spotify-light-green {
+    border-color: var(--spotify-light-green);
+  }
+  
+  .border-spotify-black {
+    border-color: var(--spotify-black);
+  }
+  
+  .border-spotify-dark {
+    border-color: var(--spotify-dark);
+  }
+  
+  .border-spotify-gray {
+    border-color: var(--spotify-gray);
+  }
+  
+  .border-spotify-light-gray {
+    border-color: var(--spotify-light-gray);
+  }
+  
+  .border-spotify-error {
+    border-color: var(--spotify-error);
+  }
+  
+  .border-spotify-warning {
+    border-color: var(--spotify-warning);
+  }
+  
+  .hover\:bg-spotify-light-green:hover {
+    background-color: var(--spotify-light-green);
+  }
+  
+  .hover\:text-spotify-light-green:hover {
+    color: var(--spotify-light-green);
+  }
+}
