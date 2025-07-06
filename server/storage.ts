@@ -58,7 +58,12 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
+    const user: User = { 
+      ...insertUser, 
+      id,
+      email: insertUser.email || null,
+      profileImage: insertUser.profileImage || null
+    };
     this.users.set(id, user);
     return user;
   }
@@ -78,7 +83,19 @@ export class MemStorage implements IStorage {
 
   async createProcessingJob(insertJob: InsertProcessingJob): Promise<ProcessingJob> {
     const id = this.currentJobId++;
-    const job: ProcessingJob = { ...insertJob, id };
+    const job: ProcessingJob = { 
+      ...insertJob, 
+      id,
+      progress: insertJob.progress ?? null,
+      currentStep: insertJob.currentStep ?? null,
+      totalSongs: insertJob.totalSongs ?? null,
+      processedSongs: insertJob.processedSongs ?? null,
+      genreResults: insertJob.genreResults ?? null,
+      createdPlaylists: insertJob.createdPlaylists ?? null,
+      errorMessage: insertJob.errorMessage ?? null,
+      startedAt: insertJob.startedAt ?? null,
+      completedAt: insertJob.completedAt ?? null
+    };
     this.processingJobs.set(id, job);
     return job;
   }
@@ -105,7 +122,16 @@ export class MemStorage implements IStorage {
 
   async createSettings(insertSettings: InsertSettings): Promise<Settings> {
     const id = this.currentSettingsId++;
-    const settings: Settings = { ...insertSettings, id };
+    const settings: Settings = { 
+      ...insertSettings, 
+      id,
+      useAudioFeatures: insertSettings.useAudioFeatures ?? true,
+      useArtistGenres: insertSettings.useArtistGenres ?? true,
+      minSongsPerPlaylist: insertSettings.minSongsPerPlaylist ?? 10,
+      makePlaylistsPublic: insertSettings.makePlaylistsPublic ?? false,
+      addEmojis: insertSettings.addEmojis ?? true,
+      playlistPrefix: insertSettings.playlistPrefix ?? ""
+    };
     this.settings.set(id, settings);
     return settings;
   }

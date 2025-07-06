@@ -235,7 +235,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Get artist genres if enabled
       if (settings.useArtistGenres) {
-        const artistIds = [...new Set(tracks.flatMap(t => t.artists.map(a => a.id)))];
+        const artistIds = Array.from(new Set(tracks.flatMap(t => t.artists.map(a => a.id))));
         const artistGenres = await spotifyService.getArtistGenres(user.accessToken, artistIds);
         
         // Attach genres to artists
@@ -262,7 +262,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const genreResults = [];
 
       let playlistCount = 0;
-      for (const [genre, genreTracks] of genreMap.entries()) {
+      const genreEntries = Array.from(genreMap.entries());
+      for (const [genre, genreTracks] of genreEntries) {
         const emoji = settings.addEmojis ? getGenreEmoji(genre) : '';
         const prefix = settings.playlistPrefix ? `${settings.playlistPrefix} ` : '';
         const playlistName = `${prefix}${emoji}${genre}`;
@@ -278,7 +279,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await spotifyService.addTracksToPlaylist(
           user.accessToken,
           playlist.id,
-          genreTracks.map(t => t.uri)
+          genreTracks.map((t: any) => t.uri)
         );
 
         createdPlaylists.push({
@@ -286,22 +287,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
           name: playlist.name,
           songCount: genreTracks.length,
           createdAt: new Date().toISOString(),
-          status: 'complete',
+          status: 'complete' as const,
           spotifyUrl: playlist.external_urls.spotify
         });
 
         genreResults.push({
           genre,
-          songs: genreTracks.map(t => t.name),
+          songs: genreTracks.map((t: any) => t.name),
           confidence: 85 + Math.random() * 15, // Mock confidence
           trackCount: genreTracks.length
         });
 
         playlistCount++;
-        const progress = 60 + (playlistCount / genreMap.size) * 35;
+        const progress = 60 + (playlistCount / genreEntries.length) * 35;
         await storage.updateProcessingJob(user.id, {
           progress: Math.round(progress),
-          currentStep: `Creating playlist ${playlistCount} of ${genreMap.size}...`
+          currentStep: `Creating playlist ${playlistCount} of ${genreEntries.length}...`
         });
       }
 
