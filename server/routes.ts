@@ -58,7 +58,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      res.redirect(`/?userId=${user.id}`);
+      // Return HTML that closes the popup and redirects the parent window
+      res.send(`
+        <html>
+          <body>
+            <script>
+              if (window.opener) {
+                window.opener.location.href = '/?userId=${user.id}';
+                window.close();
+              } else {
+                window.location.href = '/?userId=${user.id}';
+              }
+            </script>
+            <p>Authentication successful! Redirecting...</p>
+          </body>
+        </html>
+      `);
     } catch (error) {
       console.error("Error in auth callback:", error);
       res.status(500).json({ message: "Authentication failed" });
