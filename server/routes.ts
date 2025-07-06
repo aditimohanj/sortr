@@ -76,7 +76,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `);
     } catch (error) {
       console.error("Error in auth callback:", error);
-      res.status(500).json({ message: "Authentication failed" });
+      res.send(`
+        <html>
+          <body>
+            <h2>Authentication Error</h2>
+            <p>There was an error during authentication. Please check:</p>
+            <ul>
+              <li>Your Spotify app's redirect URI is set to: <br>
+                  <code>https://4ee6ee26-0849-4246-97b7-948a33b70c56-00-3hczhfxdzzjs6.janeway.replit.dev/api/auth/callback</code>
+              </li>
+              <li>Your Spotify app credentials are valid</li>
+            </ul>
+            <p>Error: ${error instanceof Error ? error.message : 'Unknown error'}</p>
+            <button onclick="window.close()">Close</button>
+          </body>
+        </html>
+      `);
     }
   });
 

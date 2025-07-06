@@ -9,6 +9,7 @@ export class SpotifyService {
     this.clientId = process.env.SPOTIFY_CLIENT_ID || "";
     this.clientSecret = process.env.SPOTIFY_CLIENT_SECRET || "";
     this.redirectUri = process.env.SPOTIFY_REDIRECT_URI || "http://localhost:5000/api/auth/callback";
+    console.log('SpotifyService initialized with redirect URI:', this.redirectUri);
   }
 
   getAuthUrl(): string {
@@ -36,6 +37,7 @@ export class SpotifyService {
     refreshToken: string;
     expiresIn: number;
   }> {
+    console.log('Exchanging code for tokens with redirect URI:', this.redirectUri);
     const response = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
@@ -50,7 +52,9 @@ export class SpotifyService {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to exchange code for tokens: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Spotify token exchange error:', response.status, response.statusText, errorText);
+      throw new Error(`Failed to exchange code for tokens: ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
